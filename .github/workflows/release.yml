@@ -39,6 +39,48 @@ jobs:
     ######################
     # Typst Environment  #
     ######################
+
+    - name: Install Nerd Fonts
+      run: |
+        echo "=== Installing Nerd Fonts ==="
+        
+        # Create fonts directory
+        mkdir -p ~/.local/share/fonts
+        
+        # Define which Nerd Fonts to install
+        # Add or remove fonts based on what your presentation uses
+        declare -a fonts=(
+          "FiraCode"
+          "NerdFontsSymbolsOnly"
+        )
+        
+        # Download and install each font
+        for font in "${fonts[@]}"; do
+          echo "Downloading ${font}..."
+          
+          # Download the font zip from latest release
+          wget -q --show-progress \
+            "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" \
+            -O "/tmp/${font}.zip"
+          
+          if [ $? -eq 0 ]; then
+            echo "Installing ${font}..."
+            unzip -q -o "/tmp/${font}.zip" -d ~/.local/share/fonts/
+            rm "/tmp/${font}.zip"
+            echo "✓ ${font} installed"
+          else
+            echo "⚠️  Failed to download ${font}, skipping..."
+          fi
+        done
+        
+        # Refresh font cache
+        echo "=== Refreshing font cache ==="
+        fc-cache -fv
+        
+        echo "=== Installed Nerd Fonts ==="
+        fc-list | grep -i "nerd" | head -20
+        
+        echo "✓ Nerd Fonts installation completed"
     
     - name: Cache Typst packages and fonts
       uses: actions/cache@v4
@@ -46,6 +88,7 @@ jobs:
         path: |
           ~/.cache/typst
           ~/.local/share/typst
+          ~/.local/share/fonts
         key: typst-${{ runner.os }}-${{ hashFiles('**/*.typ') }}
         restore-keys: |
           typst-${{ runner.os }}-
