@@ -1,7 +1,7 @@
 #import "@preview/touying:0.6.1": *
 #import themes.metropolis: *
 #import "@preview/cetz:0.4.2"
-#import "assets/general/slides.typ"
+#import "assets/general/slides.typ": thank-you-slide, contact_info_slide
 
 #let cetz-canvas = touying-reducer.with(
   reduce: cetz.canvas,
@@ -49,15 +49,8 @@
 
 == Slide title
 
-#slide[
-    #figure(
-      cetz-canvas({
-        import cetz.draw: *
-        content((0, 0), [#image("example1.png", width: 380pt)])
-        content((4,-6), text(14pt, [@some-citation]))
-        (pause,)
-        content((0, 0), [#image("example1.png", width: 380pt)])
-      })
-    )
-]
+Some content
 
+#contact_info_slide
+
+#thank-you-slide()
