@@ -1,5 +1,7 @@
 # Typst Talk template
 
+[![Title Slide](https://github.com/BonhamLab/template_presentation/releases/latest/download/title-slide.png)](https://github.com/BonhamLab/template_presentation/releases/latest/download/presentation.pdf)
+
 Write, deploy, and publish a typst presentation
 
 ## Usage

@@ -155,17 +155,23 @@ jobs:
     - name: Validate presentation output
       run: |
         echo "=== Presentation Validation ==="
-        
+
         # Check PDF properties using file command
         file presentation.pdf
-        
+
         # Try to extract basic info (requires poppler-utils, which is available on Ubuntu)
         if command -v pdfinfo &> /dev/null; then
           echo "=== PDF Information ==="
           pdfinfo presentation.pdf | head -10
         fi
-        
+
         echo "✓ Presentation validation completed"
+
+    - name: Generate title slide preview
+      run: |
+        echo "=== Generating title slide PNG ==="
+        pdftoppm -r 150 -png -singlefile -f 1 -l 1 presentation.pdf title-slide
+        echo "✓ Title slide preview generated: title-slide.png"
     
     ########################
     # Create Release Assets#
@@ -242,6 +248,7 @@ jobs:
         # Copy artifacts to release directory with descriptive names
         cp presentation.pdf "release-assets/"
         cp "${ARCHIVE_NAME}.tar.gz" "release-assets/"
+        cp title-slide.png "release-assets/"
         
         # Create checksums for integrity verification
         cd release-assets
@@ -305,6 +312,7 @@ jobs:
           release-assets/presentation.pdf
           release-assets/${{ env.ARCHIVE_NAME }}.tar.gz
           release-assets/checksums.sha256
+          release-assets/title-slide.png
         name: "Presentation Release ${{ github.ref_name }}"
         body_path: release-notes.md
         draft: false
