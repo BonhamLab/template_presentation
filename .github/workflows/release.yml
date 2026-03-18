@@ -170,7 +170,7 @@ jobs:
     - name: Generate title slide preview
       run: |
         echo "=== Generating title slide PNG ==="
-        pdftoppm -r 150 -png -singlefile -f 1 -l 1 presentation.pdf title-slide
+        typst compile --root . --format png --pages 1 main.typ title-slide.png
         echo "✓ Title slide preview generated: title-slide.png"
     
     ########################
