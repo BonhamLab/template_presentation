@@ -53,4 +53,4 @@ Some content
 
 #contact_info_slide
 
-#thank-you-slide()
+#thank-you-slide(slidesurl: "https://github.com/BonhamLab/template_presentation")
